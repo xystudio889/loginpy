@@ -20,7 +20,7 @@ jobs:
         cd dist
         7z a your_script-windows.zip *
     - name: Upload Windows artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-build
         path: dist/your_script-windows.zip
@@ -41,7 +41,7 @@ jobs:
         cd dist
         zip -r your_script-macos.zip *
     - name: Upload MacOS artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: macos-build
         path: dist/your_script-macos.zip
@@ -65,7 +65,7 @@ jobs:
         cd dist
         tar czvf your_script-linux.tar.gz *
     - name: Upload Linux artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-build
         path: dist/your_script-linux.tar.gz
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         path: artifacts
     - name: Create draft release
