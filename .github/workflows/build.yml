@@ -39,6 +39,7 @@ jobs:
     - name: Build MacOS executable
       run: |
         pyinstaller --onefile --windowed main.py
+        ls
     - name: Upload MacOS artifact
       uses: actions/upload-artifact@v4
       with:
