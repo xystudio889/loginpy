@@ -39,7 +39,7 @@ jobs:
         pip install nuitka ttkbootstrap pycryptodome
     - name: Build MacOS executable
       run: |
-        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter ---output-dir=build-mac --macos-create-app-bundle main.py
+        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter --output-dir=build-mac --macos-create-app-bundle main.py
         cd build-mac/your_script.dist
         zip -r ../your_script-macos.zip *
     - name: Upload MacOS artifact
@@ -63,7 +63,7 @@ jobs:
         pip install nuitka ttkbootstrap pycryptodome
     - name: Build Linux executable
       run: |
-        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter ---output-dir=build-linux main.py
+        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter --output-dir=build-linux main.py
         cd build-linux/your_script.dist
         tar czvf ../your_script-linux.tar.gz *
     - name: Upload Linux artifact
