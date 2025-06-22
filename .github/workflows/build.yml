@@ -20,13 +20,11 @@ jobs:
     - name: Build Windows executable
       run: |
         pyinstaller --onefile --windowed main.py
-        cd dist
-        7z a your_script-windows.zip *
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v4
       with:
         name: windows-build
-        path: dist/your_script-windows.zip
+        path: main.exe
 
   build-mac:
     runs-on: macos-latest
@@ -41,13 +39,11 @@ jobs:
     - name: Build MacOS executable
       run: |
         pyinstaller --onefile --windowed main.py
-        cd dist
-        zip -r your_script-macos.zip *
     - name: Upload MacOS artifact
       uses: actions/upload-artifact@v4
       with:
         name: macos-build
-        path: dist/your_script-macos.zip
+        path: main
 
   build-linux:
     runs-on: ubuntu-latest
@@ -65,13 +61,11 @@ jobs:
     - name: Build Linux executable
       run: |
         pyinstaller --onefile --windowed main.py
-        cd dist
-        tar czvf your_script-linux.tar.gz *
     - name: Upload Linux artifact
       uses: actions/upload-artifact@v4
       with:
         name: linux-build
-        path: dist/your_script-linux.tar.gz
+        path: main
 
   create-release:
     needs: [build-windows, build-mac, build-linux]
@@ -89,6 +83,6 @@ jobs:
         body: ""
         draft: true
         files: |
-          artifacts/windows-build/your_script-windows.zip
-          artifacts/macos-build/your_script-macos.zip
-          artifacts/linux-build/your_script-linux.tar.gz
+          artifacts/main.exe
+          artifacts/main
+          artifacts/main
