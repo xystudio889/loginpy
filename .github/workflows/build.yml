@@ -1,0 +1,93 @@
+
+name: Nuitka Cross-Platform Build with Release
+
+on: [push]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Nuitka
+      run: pip install nuitka ttkbootstrap pycryptodome
+    - name: Build Windows executable
+      run: |
+        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter --output-dir=build-windows main.py
+        cd build-windows/your_script.dist
+        7z a ../your_script-windows.zip *
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: build-windows/your_script-windows.zip
+
+  build-mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        brew install gcc
+        pip install nuitka ttkbootstrap pycryptodome
+    - name: Build MacOS executable
+      run: |
+        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter ---output-dir=build-mac --macos-create-app-bundle main.py
+        cd build-mac/your_script.dist
+        zip -r ../your_script-macos.zip *
+    - name: Upload MacOS artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build
+        path: build-mac/your_script-macos.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc patchelf
+        pip install nuitka ttkbootstrap pycryptodome
+    - name: Build Linux executable
+      run: |
+        python -m nuitka --onefile --company-name="xystudio" --product-name="login" --file-version="1.0.0" --product-version="1.0.0" --file-description="登录系统" --copyright="©xystudio(2017-2025)" --trademarks="®xystudio™" --standalone --enable-plugin=tk-inter ---output-dir=build-linux main.py
+        cd build-linux/your_script.dist
+        tar czvf ../your_script-linux.tar.gz *
+    - name: Upload Linux artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-build
+        path: build-linux/your_script-linux.tar.gz
+
+  create-release:
+    needs: [build-windows, build-mac, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts
+    - name: Create draft release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: releaser_files
+        name: "Release Files"
+        body: ""
+        draft: true
+        files: |
+          artifacts/windows-build/your_script-windows.zip
+          artifacts/macos-build/your_script-macos.zip
+          artifacts/linux-build/your_script-linux.tar.gz
