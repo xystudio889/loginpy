@@ -3,6 +3,9 @@ name: PyInstaller Cross-Platform Build with Release
 
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
