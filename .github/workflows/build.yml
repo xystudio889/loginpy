@@ -75,15 +75,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: artifacts
     - name: Create draft release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v0.0.1
-        name: "Pre-release v0.0.1"
-        body: "Automated cross-platform PyInstaller builds"
+        tag_name: release files
+        name: "release files"
+        body: ""
         draft: true
         files: |
           artifacts/windows-build/your_script-windows.zip
